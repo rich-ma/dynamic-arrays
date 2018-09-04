@@ -1,0 +1,10 @@
+# dynamic arrays
+
+In C, arrays have a 'no hidden mechanism' principle, so nothing is masked behind code, unlike in ruby.
+- arrays are fixed sizes, the user must specify the size b/c C must allocate contiguous space in memory for it.
+- Static arrays, where the size is fixed,
+
+## dynamic arrays
+----
+- need to change the memory allocation when our current size is less than our needs, amortized.
+-
