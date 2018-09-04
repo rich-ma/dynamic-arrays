@@ -4,32 +4,52 @@ class DynamicArray
   attr_reader :length
 
   def initialize
-    
+    @capacity = 8
+    @length = 0
+    @store = StaticArray.new(8)
   end
 
   # O(1)
   def [](index)
+    if index < length
+      @store[index] 
+    else
+      raise 'index out of bounds'
+    end
   end
 
   # O(1)
   def []=(index, value)
+    @store[index] = value
   end
 
   # O(1)
   def pop
+    raise "index out of bounds" if length < 1
+    @length -= 1
   end
 
   # O(1) ammortized; O(n) worst case. Variable because of the possible
   # resize.
   def push(val)
+    resize! if @length == @capacity
+    @store[@length] = val
+    @length += 1
   end
 
   # O(n): has to shift over all the elements.
   def shift
+    raise "index out of bounds" if @length < 1
+    @length.times {|i| @store[i] = @store[i+1] }
+    @length -= 1
   end
 
   # O(n): has to shift over all the elements.
   def unshift(val)
+    resize! if @length == @capacity
+    @length.downto(1) { |i| @store[i] = @store[i - 1] }
+    @store[0] = val
+    @length += 1
   end
 
   protected
@@ -41,5 +61,11 @@ class DynamicArray
 
   # O(n): has to copy over all the elements to the new store.
   def resize!
+    arr = StaticArray.new(@capacity * 2)
+    @capacity.times do |i|
+      arr[i] = @store[i]
+    end
+    @store = arr
+    @capacity *= 2
   end
 end
